@@ -1,0 +1,90 @@
+﻿@charset "utf-8";
+
+* {
+	padding: 0;
+	margin: 0;
+	font-family: "Microsoft YaHei";
+	font-size: 14px;
+}
+#hides{display: none;}
+a {
+	text-decoration: none;
+}
+
+li {
+	list-style-type: none;
+}
+
+/*全局定义css*/
+#pageAll {
+	width: 100%;
+	overflow: hidden;
+}
+
+#pageAll .page {
+	width: 96%;
+	margin: 0px auto;
+}
+
+.pageTop {
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+	background-color: #f2f2f2;
+}
+
+.pageTop span {
+	margin-left: 15px;
+}
+
+.pageTop a {
+	color: #3695cc;
+}
+
+/*表格和 分页公共CSS*/
+table {
+	border-collapse: collapse;
+}
+
+tr {
+	
+}
+
+td {
+	text-align: center;
+	border: 1px solid #dcdbdb;
+}
+
+.tdColor {
+	height: 40px;
+	background-color: #f2f2f2;
+	color: #438eb9;
+}
+
+.tdC {
+	color: #333;
+}
+
+.paging {
+	width: 100%;
+	margin-top: 50px;
+	margin-bottom: 90px;
+	text-align: right;
+}
+/*表格和 分页公共CSS end*/
+
+
+/*11.25   新地址选择页面CSS   公共样式   hy*/
+.ctAlert{display: none;width: 100%;height: 100%;position: fixed;top: 0px;background-color: rgba(0, 0, 0, 0.4);}
+.citys{width: 90%;margin: 0px auto;background-color: white;  margin-top: 50px;padding-bottom: 20px;}
+.citys .getCtys{min-height: 50px;padding-top: 50px;padding-left: 40px;float: left;font-size: 16px;  color: #666;  width: 80%;}
+.citys .closeCys{min-height: 50px;float: right;width: 120px;height: 40px;background-color: #3695cc;line-height: 50px;text-align: center;position:relative;top: 50px;right: 100px;color: white;font-size: 16px;cursor: pointer;}
+.citys .cityDiv{clear: both;width: 90%;margin: 0px auto;  margin-bottom: 30px;}
+.citys .cityDiv .cts{display: inline-block;width: 20px;height: 20px;font-size: 18px;color: #3695cc;}
+.citys .cityDiv .ctn{display: inline-block;font-size: 16px;padding-left: 5px;padding-right: 5px;padding-bottom: 3px;cursor: pointer;color: #666;}
+.citys .cityDiv .ctn:hover{color: white;background-color:#3695cc;}
+/*添加进来的DIV*/
+.citys .getCtys .ctn{display: inline-block;padding-left: 5px;padding-right: 5px;color: #3695cc;font-size: 16px;cursor: pointer;}
+/*11.25   新地址选择页面CSS   公共样式   hy    end  */
+
+

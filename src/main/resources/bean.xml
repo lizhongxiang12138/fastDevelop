@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	 http://www.springframework.org/schema/beans/spring-beans.xsd
+     	 http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop.xsd
+         http://www.springframework.org/schema/tx
+     	 http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 开启注解扫描 -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.my">
+		<!-- 自动扫描组件，要把controller去除，他们是在spring-mvc.xml中配置，如果不去除会影响事务管理。 -->
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 导入外部的properties配置文件 -->
+	<context:property-placeholder location="classpath:db.properties" />
+
+
+	<bean id="springContextUtil" class="com.my.project.utils.SpringContextUtil"
+		scope="singleton" />
+
+	<!-- 配置c3p0数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="jdbcUrl" value="${jdbcUrl}"></property>
+		<property name="driverClass" value="${driverClass}"></property>
+		<property name="user" value="${user}"></property>
+		<property name="password" value="${password}"></property>
+		<!--初始化时获取三个连接，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+		<property name="initialPoolSize" value="${initialPoolSize}"></property>
+		<!--连接池中保留的最小连接数。Default: 3 -->
+		<property name="minPoolSize" value="3"></property>
+		<!--连接池中保留的最大连接数。Default: 15 -->
+		<property name="maxPoolSize" value="${maxPoolSize}"></property>
+		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<property name="acquireIncrement" value="3"></property>
+		<!--最大空闲时间，1800秒内未使用则连接被丢弃，若为0则永不丢弃。Default: 0 -->
+		<property name="maxIdleTime" value="1800"></property>
+	</bean>
+
+
+	<!-- sessionFactory配置 -->
+	<!-- <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> 
+		<property name="dataSource" ref="dataSource"/> <property name="hibernateProperties"> 
+		<props> <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> 
+		<prop key="hibernate.show_sql">true</prop> <prop key="format_sql">true</prop> 
+		<prop key="hibernate.hbm2ddl.auto">update</prop> <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop> 
+		</props> </property> <property name="mappingLocations"> <list> <value>classpath:com/my/ynpt/entity/*.hbm.xml</value> 
+		<value>classpath:com/lzx/ynpt/test/*.hbm.xml</value> </list> </property> 
+		</bean> -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext
+				</prop>
+			</props>
+		</property>
+		<property name="packagesToScan">
+			<list>
+				<value>com.my.project.entity</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 事务配置 -->
+	<!-- 事务管理器类 -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+
+	<!-- 事务增强 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<!-- <tx:method name="find*" read-only="true"/> <tx:method name="get*" 
+				read-only="true"/> <tx:method name="list*" read-only="true"/> -->
+			<tx:method name="*" rollback-for="Throwable" read-only="false" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- aop配置 -->
+	<aop:config>
+		<aop:pointcut expression="execution( * com.my..service.impl.*.*(..))"
+			id="pt" />
+		<aop:pointcut expression="execution( * com.my..service.imple.*.*(..))"
+			id="pt2" />
+		<aop:pointcut expression="execution( * com.my..tag.*.*(..))"
+			id="pt3" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pt" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pt2" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pt3" />
+	</aop:config>
+	
+	<!-- 引入外部配置 -->
+
+	<!-- 使用annotation定义事务 -->
+	<!-- <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" 
+		/> -->
+	<import resource="classpath:/shiro.xml"/>
+</beans>     
+
+
+
+
+
+
+
+
+
+

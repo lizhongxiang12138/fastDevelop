@@ -1,0 +1,30 @@
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>2.0</jsp-version>
+	<short-name>Example TLD</short-name>
+	<tag>
+		<name>Select</name>
+		<tag-class>com.my.tag.SelectTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>beanClassName</name>
+		</attribute>
+		<attribute>
+			<name>value</name>
+		</attribute>
+		<attribute>
+			<name>valueName</name>
+		</attribute>
+		<attribute>
+			<name>where</name>
+		</attribute>
+		<attribute>
+			<name>selectValue</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

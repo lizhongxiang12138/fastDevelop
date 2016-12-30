@@ -1,0 +1,50 @@
+﻿@charset "utf-8";
+
+* {
+	font-family: "Microsoft YaHei";
+	font-size: 14px;
+}
+.with100{
+	width:100%;
+}
+.height100{
+	height:100%;
+}
+.width40{
+	width:40%;
+}
+.proBasicInfoBox{
+	height: 300px;
+}
+.proBasicInfoBox > div{
+	float: left;
+}
+.imageBox *{
+	width: 100%;
+	height: 100%;
+}
+.proBasicInfo ul{
+	list-style-type: none;
+}
+.proBasicInfo li{
+	padding: 10px 10px;
+}
+.button{
+	width: 100px;
+	height: 40px;
+	border-radius:5px;
+	background-color: #fff;
+}
+.button:HOVER{
+	cursor: pointer;
+	background-color: #505050;
+	color: #fff;
+}
+.proDetailInfoBox > p{
+	padding: 10px 10px;
+	font-size: 20px;
+	font-weight: bolder;
+	color: #4390B9;
+	text-align:center;
+	border-bottom: solid 3px #4390B9;
+}
