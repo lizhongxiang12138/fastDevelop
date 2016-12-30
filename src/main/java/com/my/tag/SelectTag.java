@@ -5,21 +5,16 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.my.project.utils.QueryHelper;
 import com.my.project.utils.SpringContextUtil;
-import com.sun.xml.internal.bind.v2.runtime.Name;
 
 /**
  * 

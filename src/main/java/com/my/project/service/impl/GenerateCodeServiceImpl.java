@@ -4,14 +4,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.junit.rules.TestName;
 import org.springframework.stereotype.Service;
 import com.my.base.service.impl.BaseServiceImpl;
 import com.my.project.entity.GenerateCode;
 import com.my.project.entity.TbMenu;
 import com.my.project.service.MenuService;
 import com.my.project.utils.QueryHelper;
-import com.sun.swing.internal.plaf.metal.resources.metal_zh_TW;
 
 import autoGenerateModel.AutoGenerateUtil;
 
