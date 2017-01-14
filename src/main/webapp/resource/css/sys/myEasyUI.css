@@ -1,0 +1,19 @@
+﻿@charset "utf-8";
+
+.my_lable {
+	width: 30px;
+	text-align: left;
+	display: inline-block;
+}
+
+.tree-file {
+	background-image: url() !important;
+}
+
+.tree-folder-open {
+	background-image: url() !important;
+}
+
+.tree-folder {
+	background-image: url() !important;
+}

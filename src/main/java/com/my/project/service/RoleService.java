@@ -1,9 +1,11 @@
 package com.my.project.service;
 
 import java.io.OutputStream;
+import java.util.List;
 
 import com.my.base.service.BaseService;
 import com.my.controller.sys.project.role.model.RoleModel;
+import com.my.project.entity.TbMenu;
 import com.my.project.entity.TbRole;
 
 public interface RoleService extends BaseService<TbRole> {
@@ -24,4 +26,10 @@ public interface RoleService extends BaseService<TbRole> {
 	 * @param roleModel
 	 */
 	public void update(RoleModel r)throws Exception;
+	
+	/**
+	 * 设置菜单的权限
+	 * @param menus
+	 */
+	public void setChecked(List<TbMenu> menus,String roleId);
 }

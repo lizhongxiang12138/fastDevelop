@@ -30,22 +30,7 @@
 <link rel="stylesheet" type="text/css" href="${pathResource }/easyui/themes/icon.css">
 <!-- easyui -->
 
-<style type="text/css">	
-	.my_lable {
-		width: 30px;
-		text-align: left;
-		display: inline-block;
-	}
-	.tree-file {
-		background-image: url() !important;
-	}
-	.tree-folder-open {
-    	background-image: url() !important;
-	}
-	.tree-folder {
-	    background-image: url() !important;
-	}
-</style>
+<link rel="stylesheet" href="${pathResource }/css/sys/myEasyUI.css">
 
 </head>
 
@@ -184,14 +169,14 @@
 
 				<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
 					<a class="am-dropdown-toggle tpl-header-list-link"
-					href="javascript:;"> <span class="tpl-header-list-user-nick">禁言小张</span><span
+					href="javascript:;"> <span class="tpl-header-list-user-nick">欢迎：${sessionScope.loginUser.userName }</span><span
 						class="tpl-header-list-user-ico"> <img
 							src="assets/img/user01.png"></span>
 				</a>
 					<ul class="am-dropdown-content">
 						<li><a href="#"><span class="am-icon-bell-o"></span> 资料</a></li>
 						<li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
-						<li><a href="#"><span class="am-icon-power-off"></span>
+						<li><a href="${pathSys }/project/authUser/logout.action"><span class="am-icon-power-off"></span>
 								退出</a></li>
 					</ul>
 				</li>
@@ -256,7 +241,7 @@
 		$(function() {
 			//菜单初始化
 			$('#menu').tree({
-				url : '${path }/sys/project/menu/getmenus.action',
+				url : '${path }/sys/project/authUser/getmenus.action',
 				animate : true,
 				onClick:function(node){
 					if(node.url!="#"){

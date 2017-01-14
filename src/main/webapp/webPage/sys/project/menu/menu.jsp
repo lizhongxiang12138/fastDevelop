@@ -49,17 +49,7 @@
 	href="${pathResource }/easyui/themes/icon.css">
 <!--easyui import end-->
 
-<style type="text/css">
-.my_lable {
-	width: 30px;
-	text-align: left;
-	display: inline-block;
-}
-
-.tree-file {
-	background-image: url() !important;
-}
-</style>
+<link rel="stylesheet" href="${pathResource }/css/sys/myEasyUI.css">
 
 </head>
 <body id="cc" class="easyui-layout">

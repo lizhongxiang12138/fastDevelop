@@ -53,15 +53,6 @@ public class MenuAction {
 	    qh.addOrder("text", QueryHelper.ORDER_BY_DESC);
 	    menus = menuService.list(qh);
 	    menuService.setChildren(menus);
-	    /**
-	     * 查询根菜单
-	     */
-//	    for (int i = 0; i < menus.size(); i++) {
-//		qh = new QueryHelper(TbMenu.class, "m");
-//		qh.addCondition("m.menuParent=?", menus.get(i).getId());
-//		qh.addOrder("text", QueryHelper.ORDER_BY_DESC);
-//		menus.get(i).setChildren(menuService.list(qh));
-//	    }
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();

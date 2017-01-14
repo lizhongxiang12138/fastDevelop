@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,6 +30,9 @@ public class SelectTag extends SimpleTagSupport {
     private String valueName;
     private String where;
     private String selectValue;
+    private String className;
+    private String dataOptions;
+    
     
     StringWriter sw = new StringWriter();
 
@@ -56,7 +60,14 @@ public class SelectTag extends SimpleTagSupport {
 	            }
 	        }
 	        List objs =  list(qh);
-	        String html = "<select name=\""+name+"\">" ;
+	        String html = "<select name=\""+name+"\"  " ;
+	        if(StringUtils.isNotBlank(className)) {
+	            html=html+" class=\""+className+"\" ";
+	        }
+	        if(StringUtils.isNotBlank(dataOptions)) {
+	            html=html+" data-options=\""+dataOptions+"\" ";
+	        }
+	        html=html+" >";
 	        html=html+"<option value =\"\">请选择</option>";
 	        for (Object o : objs) {
 		    Method getValue = beanClass.getMethod("get"+value.substring(0,1).toUpperCase()+value.substring(1, value.length()));
@@ -154,6 +165,20 @@ public class SelectTag extends SimpleTagSupport {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getDataOptions() {
+        return dataOptions;
+    }
+
+    public void setDataOptions(String dataOptions) {
+        this.dataOptions = dataOptions;
+    } 
 }

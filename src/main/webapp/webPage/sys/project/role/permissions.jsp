@@ -49,17 +49,7 @@
 	href="${pathResource }/easyui/themes/icon.css">
 <!--easyui import end-->
 
-<style type="text/css">
-.my_lable {
-	width: 30px;
-	text-align: left;
-	display: inline-block;
-}
-
-.tree-file {
-	background-image: url() !important;
-}
-</style>
+<link rel="stylesheet" href="${pathResource }/css/sys/myEasyUI.css">
 
 </head>
 <body id="cc" class="easyui-layout">
@@ -68,15 +58,15 @@
 	时间：2016-03-18
 	描述：首页
 -->
-	
+
 	<div data-options="region:'center'"
 		style="padding: 5px; background: #eee;">
-		
+
 		<div>
-			<input id=roleId type="hidden" value="${requestScope.role.id }"/>
+			<input id=roleId type="hidden" value="${requestScope.role.id }" />
 			${requestScope.role.roleName } 》》》》 权限资源管理
 		</div>
-		
+
 		<!-- 数据 -->
 		<div style="clear: both;">
 			<div class="easyui-panel" style="width: 95%; height: 350px;"
@@ -84,11 +74,13 @@
 				data-options="iconCls:'glyphicon glyphicon-folder-open'">
 				<ul id="tt2"></ul>
 				<div id="mm" class="easyui-menu" style="width: 120px;">
-					<div onclick="permissionsDetail()" data-options="iconCls:'icon-edit'">修改资源权限</div>
+					<div onclick="permissionsDetail()"
+						data-options="iconCls:'icon-edit'">修改资源权限</div>
 				</div>
 			</div>
 			<div>
-				<button onclick="submitPermissions()" type="button" class="btn btn-primary">提交</button>
+				<button onclick="submitPermissions()" type="button"
+					class="btn btn-primary">提交</button>
 			</div>
 		</div>
 		<!-- 数据 end-->
@@ -97,8 +89,8 @@
 
 
 	<!-- 数据添加修改页面 -->
-	<div id="permissionDetailDialog" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
+	<div id="permissionDetailDialog" class="modal fade" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -109,7 +101,8 @@
 					<h4 class="modal-title" id="myModalLabel">权限管理</h4>
 				</div>
 				<div id=modal_content class="modal-body">
-					<iframe id="permissionDetailFrame" src="" width="100%" height="350px"></iframe>
+					<iframe id="permissionDetailFrame" src="" width="100%"
+						height="350px"></iframe>
 				</div>
 			</div>
 		</div>
@@ -140,10 +133,10 @@
 
 	<!--<![endif]-->
 	<!--[if lte IE 8 ]>
-<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="/YNPT-store/assets/js/amazeui.ie8polyfill.min.js"></script>
-<![endif]-->
+		<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+		<script src="/YNPT-store/assets/js/amazeui.ie8polyfill.min.js"></script>
+	<![endif]-->
 	<script type="text/javascript"
 		src="${pathResource }/easyui/jquery.min.js"></script>
 	<script src="${pathSys_page}/js/bootstrap.min.js?v=3.3.5"></script>
@@ -158,39 +151,6 @@
 		src="${pathResource }/easyui/jquery.easyui.min.js"></script>
 
 	<script>
-		/**
-		 * 删除数据
-		 */
-		function deleteData() {
-			var node = $('#tt2').tree('getSelected');
-			alert("呵呵");
-			$.messager
-					.confirm(
-							"删除",
-							"确定删除菜单：\"" + node.text + "\"吗？",
-							function(btn) {
-								if (btn == true) {
-									$
-											.ajax({
-												url : '${path }/sys/project/menu/delete.action',
-												type : 'post',
-												dataType : 'json',
-												data : {
-													'menu.id' : node.id
-												},
-												success : function(data) {
-													if (data.mess == "success") {
-														location
-																.replace(location);
-													}
-												},
-												error : function() {
-													$.messager.show("出错了！");
-												}
-											});
-								}
-							});
-		}
 		/*
 		 *	编辑
 		 */
@@ -199,19 +159,22 @@
 			$('#permissionDetailDialog').modal({
 				show : true
 			});
-			alert(node.id+':'+node.text);
-			var href =  '${pathSys}/project/role/permissions.action?role.id=${role.id }&role.roleName=${role.roleName}'
-				+'&menu.id='+node.id+'&menu.text='+node.text+'&request=permissionsDetailPage';
-			$('#permissionDetailFrame').attr('src',href);
+			alert(node.id + ':' + node.text);
+			var href = '${pathSys}/project/role/permissions.action?role.id=${role.id }&role.roleName=${role.roleName}'
+					+ '&menu.id='
+					+ node.id
+					+ '&menu.text='
+					+ node.text
+					+ '&request=permissionsDetailPage';
+			$('#permissionDetailFrame').attr('src', href);
 		}
-
 
 		$(function() {
 			//菜单初始化
 			$('#tt2').tree({
-				url : '${path }/sys/project/menu/getmenus.action',
+				url : '${path }/sys/project/role/getmenus.action?role.id=${role.id}',
 				animate : true,
-				checkbox:true,
+				checkbox : true,
 				onContextMenu : function(e, node) {
 					e.preventDefault();
 					// 查找节点
@@ -225,17 +188,43 @@
 			});
 
 		});
-		
+
 		/*
 			提交权限
-		*/
-		function submitPermissions(){
-			var selNodes=$('#tt2').tree('getChecked');
-			var indNodes = $('#tt2').tree('getChecked','indeterminate');
-			for(var i in indNodes){
+		 */
+		function submitPermissions() {
+			var selNodes = $('#tt2').tree('getChecked');
+			var indNodes = $('#tt2').tree('getChecked', 'indeterminate');
+			for ( var i in indNodes) {
 				selNodes.push(indNodes[i]);
 			}
-			alert(selNodes.length);
+			var menuIds ='';
+			for (var i=0;i<selNodes.length;i++) {
+				menuIds+=selNodes[i].id+',';
+			}
+			$.messager.progress(); // 显示进度条
+			$.ajax({
+				type:"post",
+				url:"${pathSys}/project/role/permissions.action",
+				async:false,
+				data: {
+					'role.id':'${role.id}',
+					'request':'permissionsSubmit',
+					'menuIds': menuIds
+				},
+			  	success: function(data){
+			  		if(data.mess=="success"){
+			  			$.messager.progress('close'); // 如果提交成功则隐藏进度条
+			  			parent.closeDialog('permissionsDialog');
+			  		}else{
+			  			alert("出现了错误");
+			  		}
+			  	},
+			  	error:function(){
+			  		alert("服务器出现了错误");
+			  	},
+			  	dataType: 'json'
+			});
 		}
 	</script>
 

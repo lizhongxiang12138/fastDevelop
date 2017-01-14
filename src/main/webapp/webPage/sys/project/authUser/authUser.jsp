@@ -179,6 +179,7 @@
 								<th>用户密码</th>
 								<th>用户名称</th>
 								<th>用户账号</th>
+								<th>用户角色</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -198,6 +199,7 @@
 									<td>${authUser.userPassword}</td>
 									<td>${authUser.userName}</td>
 									<td>${authUser.userAccount}</td>
+									<td>${authUser.roleName}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -1,6 +1,6 @@
 package com.my.project.service.impl;
 
-import java.io.OutputStream;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.my.base.service.impl.BaseServiceImpl;
 import com.my.controller.sys.project.role.model.RoleModel;
+import com.my.project.dao.MenuDao;
 import com.my.project.dao.RoleDao;
 import com.my.project.dao.RoleMenuRelationDao;
+import com.my.project.entity.TbMenu;
 import com.my.project.entity.TbRole;
 import com.my.project.entity.relation.RoleMenuRelation;
 import com.my.project.service.RoleService;
 import com.my.project.utils.DeleteHelper;
+import com.my.project.utils.QueryHelper;
 
 @Service("roleService")
 public class RoleServiceImpl extends BaseServiceImpl<TbRole> implements RoleService {
@@ -21,6 +24,8 @@ public class RoleServiceImpl extends BaseServiceImpl<TbRole> implements RoleServ
 	private RoleMenuRelationDao roleMenuRelationDao;
 	@Resource
 	private RoleDao roleDao;
+	@Resource
+	private MenuDao menuDao;
 	
 	
 	public void save(RoleModel r)throws Exception {
@@ -51,5 +56,26 @@ public class RoleServiceImpl extends BaseServiceImpl<TbRole> implements RoleServ
 				roleMenuRelationDao.save(new RoleMenuRelation(r.getRole().getId(),menuList[i]));
 			}
 		}
+	}
+
+
+	@Override
+	public void setChecked(List<TbMenu> menus,String roleId) {
+	    for(int i=0;i<menus.size();i++) {
+		TbMenu tbMenu = menus.get(i);
+		QueryHelper qh = new QueryHelper(RoleMenuRelation.class, "rm");
+		qh.addCondition("roleId=?", roleId);
+		qh.addCondition("menuId=?", tbMenu.getId());
+		List<RoleMenuRelation> list = roleMenuRelationDao.list(qh);
+		if(tbMenu.getChildren()==null||tbMenu.getChildren().size()==0) {
+		    if(list!=null&&list.size()>0) {
+			tbMenu.setChecked(true);
+		    }else {
+			tbMenu.setChecked(false);
+		    }
+		}else {
+		    setChecked(tbMenu.getChildren(),roleId);
+		}
+	    }
 	}
 }

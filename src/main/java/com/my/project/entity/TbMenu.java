@@ -57,6 +57,14 @@ public class TbMenu implements java.io.Serializable {
 	List<TbMenu> children;
 	
 	/**
+	 * 定义节点是否被选中
+	 * true
+	 * false
+	 */
+	@Transient
+	Boolean  checked;
+	
+	/**
 	 * 对应的链接
 	 */
 	@Column(name="menu_url",length=300)
@@ -178,6 +186,14 @@ public class TbMenu implements java.io.Serializable {
 
 	public void setEnName(String enName) {
 	    this.enName = enName;
+	}
+	
+	public Boolean getChecked() {
+	    return checked;
+	}
+
+	public void setChecked(Boolean checked) {
+	    this.checked = checked;
 	}
 
 	@Override

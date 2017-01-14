@@ -291,10 +291,9 @@
 				success : function(data) {
 					var data = eval('(' + data + ')');
 					if ("success" == data.mess) {
-						//$('#addDialog').dialog('close');
-						$('#formDialog').modal({
-							show : false
-						});
+						var fd = document.getElementById("formDialog");
+						//$('#formDialog').modal('hide');
+						$(fd).modal('hide');
 						$.messager.progress('close'); // 如果提交成功则隐藏进度条
 						location.reload();
 					}
@@ -312,6 +311,14 @@
 				return;
 			}
 			$("#datasForm").submit();
+		}
+		
+		/*
+			关闭dialog
+			dialogId : dialog的Id
+	 	*/
+	 	function closeDialog(dialogId){
+			$("#"+dialogId).modal('hide');
 		}
 	</script>
 

@@ -14,6 +14,12 @@
 			<name>beanClassName</name>
 		</attribute>
 		<attribute>
+			<name>className</name>
+		</attribute>
+		<attribute>
+			<name>dataOptions</name>
+		</attribute>
+		<attribute>
 			<name>value</name>
 		</attribute>
 		<attribute>

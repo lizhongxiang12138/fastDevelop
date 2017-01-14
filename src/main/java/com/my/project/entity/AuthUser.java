@@ -24,13 +24,13 @@ import com.my.annotation.page.PageMate;
 public class AuthUser implements java.io.Serializable {
 
 	/**
-	 * 角色id
+	 * id
 	 */
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
 	@GeneratedValue(generator = "generator")
 	@Column(name = "id", unique = true, nullable = false, length = 32)
-	private String id;//角色id
+	private String id;//id
 	
 	/**
 	 * 用户名称
@@ -55,6 +55,22 @@ public class AuthUser implements java.io.Serializable {
 	@ExcelColumn(title="用户密码",column=2)
 	@PageMate(fieldName="用户密码")
 	private String userPassword;
+	
+	/**
+	 * 角色id
+	 */
+	@Column(name = "ROLE_ID", nullable = true, length = 32)
+	@ExcelColumn(title="角色id",column=3)
+	@PageMate(fieldName="角色id")
+	private String roleId;
+	
+	/**
+	 * 角色名称
+	 */
+	@Column(name = "ROLE_NAME", nullable = true, length = 200)
+	@ExcelColumn(title="角色名称",column=4)
+	@PageMate(fieldName="角色名称")
+	private String roleName;
 
 	//getter setter 
 	public String getId() {
@@ -87,6 +103,22 @@ public class AuthUser implements java.io.Serializable {
 
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
+	}
+
+	public String getRoleId() {
+	    return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+	    this.roleId = roleId;
+	}
+
+	public String getRoleName() {
+	    return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+	    this.roleName = roleName;
 	}
 	
 }

@@ -30,10 +30,11 @@
 		<!-- Shiro连接约束配置,即过滤链的定义 -->
 		<property name="filterChainDefinitions">
 			<value>
-				#/login=anon
-				#/webPage/sys/project/authUser/login.jsp=anon
-				#/sys/**=authc
-				#/webPage/sys/**=authc
+				/sys/project/authUser/login.action=anon
+				/webPage/sys/project/authUser/login.jsp=anon
+				/webPage/amazeUi/**=authc
+				/sys/**=authc
+				/webPage/sys/**=authc
 			</value>
 		</property>
 	</bean>
