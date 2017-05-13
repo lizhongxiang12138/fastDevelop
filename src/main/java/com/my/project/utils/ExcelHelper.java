@@ -7,33 +7,47 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import org.apache.poi.hssf.usermodel.DVConstraint;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataValidation;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataValidation;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFDataValidation;
+import org.apache.poi.xssf.usermodel.XSSFDataValidationConstraint;
+import org.apache.poi.xssf.usermodel.XSSFDataValidationHelper;
 import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.microsoft.schemas.office.visio.x2012.main.CellType;
 import com.my.annotation.excel.ExcelColumn;
 import com.my.annotation.excel.ExcelTable;
 import com.my.base.dao.impl.BaseDaoImpl;
+import com.my.project.entity.HistoricType;
 import com.my.project.entity.TbMenu;
 import com.my.project.entity.TbRole;
 
@@ -52,13 +66,14 @@ public class ExcelHelper<T> {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		File file = new File("F:\\菜单资源数据.xlsx");
-		String fileName = file.getName();
-		FileInputStream in = new FileInputStream(file);
-		ExcelHelper<TbMenu> eh = new ExcelHelper<TbMenu>(TbMenu.class,//
-				in,fileName);
-		List<TbMenu> datas = eh.importDatasToMemory();
-		System.out.println(datas.size());
+//		File file = new File("F:\\菜单资源数据.xlsx");
+//		String fileName = file.getName();
+//		FileInputStream in = new FileInputStream(file);
+//		ExcelHelper<TbMenu> eh = new ExcelHelper<TbMenu>(TbMenu.class,//
+//				in,fileName);
+//		List<TbMenu> datas = eh.importDatasToMemory();
+//		System.out.println(datas.size());
+	    ExcelHelper<HistoricType> excelHelper = new ExcelHelper<HistoricType>(HistoricType.class);
 	}
 
 	/**
@@ -77,6 +92,14 @@ public class ExcelHelper<T> {
 	 * 工作表
 	 */
 	private Sheet sheet;
+	/**
+	 * 下拉框
+	 */
+	private DataValidation datavalidation;
+	/**
+	 * 判断是不是03版本的excel
+	 */
+	private boolean is03;
 
 	/**
 	 * 导出数据是的构造函数
@@ -104,7 +127,7 @@ public class ExcelHelper<T> {
 	 */
 	public ExcelHelper(Class clazz, InputStream in,String fileName) throws Exception {
 		this.clazz = clazz;
-		boolean is03 = fileName.matches("^.+\\.(?i)(xls)$");
+		is03 = fileName.matches("^.+\\.(?i)(xls)$");
 		// 读取excel
 		workbook = is03 ? new HSSFWorkbook(in) : new XSSFWorkbook(in);
 		sheet = workbook.getSheetAt(0);
@@ -169,7 +192,36 @@ public class ExcelHelper<T> {
 		workbook.write(os);
 		workbook.close();
 	}
-
+	
+	/**
+	 * 获取文本框数据
+	 * @throws Exception
+	 */
+        private Map getSelectMap(Field f) throws Exception {
+        	ExcelColumn ec = f.getAnnotation(ExcelColumn.class);
+        	Map selectList =null;
+        	if (ec != null) {
+        	    if (!"".equals(ec.selectList().trim())) {
+        		String name = ec.selectList().trim();
+        		System.out.println(name);
+        		String className = name.substring(0, name.lastIndexOf("."));
+        		String fileName = name.substring(name.lastIndexOf(".") + 1,name.length());
+        		Class clazzList = Class.forName(className);
+        		Field selectField = clazzList.getDeclaredField(fileName);
+        		Object value = selectField.get(null);
+        		if (value instanceof Map) {
+        		    selectList = (Map) value;
+        		    Iterator<Map.Entry> iterator = selectList.entrySet().iterator();
+        		    while (iterator.hasNext()) {
+        			Entry next = iterator.next();
+        			System.out .println(next.getKey() + "-" + next.getValue());
+        		    }
+        		}
+        	    }
+        	}
+        	return selectList;
+        
+        }
 	/**
 	 * 添加填表注意事项及其表头
 	 * 
@@ -198,6 +250,22 @@ public class ExcelHelper<T> {
 				cellHead.setCellValue(ec.title());
 				cellHead.setCellStyle(styleHead);
 				maxColumn = ec.column() >= maxColumn ? ec.column() : maxColumn;
+				/*
+				 *设计下拉框 
+				 */
+				Map selectMap = getSelectMap(field);
+				if(selectMap!=null) {
+				    String[] selectArr =  new String[selectMap.size()];
+				    Iterator<Entry> iterator = selectMap.entrySet().iterator();
+				    int index = 0;
+				    while (iterator.hasNext()) {
+					Entry entry = iterator.next();
+					System.out.println(entry.getKey()+"="+entry.getValue());
+					selectArr[index]=entry.getKey()+"="+entry.getValue();
+					index++;
+				    }
+				    setListSelect(ec.column(), selectArr);
+				}
 			}
 			System.out.print("属性名称为：" + field.getName() + "\n");
 		}
@@ -252,9 +320,16 @@ public class ExcelHelper<T> {
 					Object value = getMethod.invoke(datas.get(i));
 					cell = row.createCell(ec.column());
 					if (value != null) {
+					    Map selectMap = getSelectMap(field);
+					    if(selectMap!=null) {
+						Object describe  = selectMap.get(value);
+						cell.setCellValue(value.toString()+"="+describe.toString());
+					    }else {
 						cell.setCellValue(value.toString());
+					    }
 					}
 					cell.setCellStyle(style);
+					
 				}
 			}
 			System.out.println("[导出了一条数据]");
@@ -283,6 +358,7 @@ public class ExcelHelper<T> {
 				row = sheet.getRow(i);
 				//设置属性值
 				for(int j=0;j<fields.length;j++){
+				    	if(Modifier.isStatic(fields[j].getModifiers())) continue;//如果是静态属性跳过方法
 					ExcelColumn ec = fields[j].getAnnotation(ExcelColumn.class);
 					String fieldName = fields[j].getName();
 					if(ec !=null){
@@ -292,10 +368,22 @@ public class ExcelHelper<T> {
 						//获取单元格的值
 						cell = row.getCell(ec.column());
 						Object value = null;
+						if(cell==null) continue;
 						switch (cell.getCellType()) {
 						case HSSFCell.CELL_TYPE_STRING:
 							value = cell.getStringCellValue();
-							setMethod.invoke(objt, (String)value);	
+							//判断是否为下拉数据选项
+							if(!"".equals(ec.selectList().trim())) {
+							    String val = (String)value;
+							    val=val.substring(0, val.indexOf('='));
+							    if(fields[j].getType()==Integer.class) {
+								setMethod.invoke(objt, Integer.parseInt((val).trim()));
+							    }else if(fields[j].getType()==String.class) {
+								setMethod.invoke(objt, (val).trim());
+							    }
+							}else {
+							    setMethod.invoke(objt, ((String)value).trim());	
+							}
 							break;
 						case HSSFCell.CELL_TYPE_NUMERIC:
 							value = cell.getNumericCellValue();
@@ -321,5 +409,17 @@ public class ExcelHelper<T> {
 			}
 		}
 		return datas;
+	}
+	/**	
+	 * 设置下拉框
+	 * @param col
+	 * @param list
+	 */
+	private void setListSelect(int col,String[] list){
+	    XSSFDataValidationHelper dvHelper = new XSSFDataValidationHelper((XSSFSheet) sheet);
+	    XSSFDataValidationConstraint constraint = (XSSFDataValidationConstraint) dvHelper.createExplicitListConstraint(list);
+	    CellRangeAddressList address = new CellRangeAddressList(2, 1000000, col, col);
+	    DataValidation dataValidation = dvHelper.createValidation(constraint, address);
+	    sheet.addValidationData(dataValidation);
 	}
 }

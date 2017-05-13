@@ -143,7 +143,7 @@ public class ${className} {
 			//1.设置文件ContentType类型，这样设置，会自动判断下载文件类型  
 			response.setContentType("multipart/form-data");  
 			//2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)
-			String fileName=new String("角色数据.xlsx".getBytes("UTF-8"), "iso8859-1");
+			String fileName=new String("${excel_CH}.xlsx".getBytes("UTF-8"), "iso8859-1");
 			response.setHeader("Content-Disposition", "attachment;fileName="+fileName);  
 			OutputStream os = response.getOutputStream();
 			List<${entity}> list = ${serviceInterfaceName}.list();

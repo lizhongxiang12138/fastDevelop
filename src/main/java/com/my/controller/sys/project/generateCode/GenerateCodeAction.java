@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.my.controller.sys.project.generateCode.model.GenerateCodeModel;
+import com.my.project.entity.GenerateCode;
 import com.my.project.utils.OverridUtils;
 import com.my.project.utils.PageUtils;
 import com.my.project.utils.QueryHelper;
@@ -52,6 +53,7 @@ public class GenerateCodeAction {
 				generateCodeService.update(generateCodeModel.getGenerateCode());
 				resultMess="success";
 			}else{
+			    	generateCodeModel.getGenerateCode().setState(GenerateCode.AVAILABLE);
 				generateCodeService.save(generateCodeModel.getGenerateCode());
 				resultMess="success";
 			}
@@ -114,13 +116,15 @@ public class GenerateCodeAction {
 		if (generateCodeModel != null) {
 			if (generateCodeModel.getGenerateCode() != null) {
 				if (StringUtils.isNotBlank(generateCodeModel.getGenerateCode().getModuleName())) {
-					queryHelper.addCondition("moduleName = ?", generateCodeModel.getGenerateCode().getModuleName());
+					queryHelper.addCondition("moduleName like ?", "%"+generateCodeModel.getGenerateCode().getModuleName()+"%");
 				}
 			}
 		}
+		queryHelper.addOrder("state", QueryHelper.ORDER_BY_DESC);
 		page = generateCodeService.list(queryHelper, page.getPgNo(), page.getPgSize());
 		model.addAttribute("page", page);
 		model.addAttribute("generateCodeModel", generateCodeModel);
+		model.addAttribute("stateMap", GenerateCode.STATESTRMAP);
 		
 		return "/webPage/sys/project/generateCode/generateCode.jsp";
 	}
@@ -239,5 +243,82 @@ public class GenerateCodeAction {
 		}
 		
 		return resultMap;
+	} 
+	
+	/**
+	 * 解锁
+	 * @param generateCodeModel
+	 * @return
+	 */
+	@RequestMapping("removeLock")
+	public @ResponseBody Map<String,Object> removeLock(GenerateCodeModel generateCodeModel) {
+	    HashMap<String, Object> resultMap = new HashMap<String, Object>();
+	    
+	    try {
+		if(generateCodeModel==null) {
+		    resultMap.put("mess", "系统出错了");
+		    return resultMap;
+		}
+		if(generateCodeModel.getGenerateCode()==null) {
+		    resultMap.put("mess", "系统出错了");
+		    return resultMap;
+		}
+		if (StringUtils.isBlank(generateCodeModel.getGenerateCode().getId())) {
+		    resultMap.put("mess", "系统出错了");
+		    return resultMap;
+		}
+		changeState(generateCodeModel,GenerateCode.AVAILABLE);
+		resultMap.put("mess", "success");
+	    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		resultMap.put("mess", "系统出错了");
+	    }
+	    
+	    return resultMap;
+	}
+	
+	/**
+	 * 锁定
+	 * @param generateCodeModel
+	 * @return
+	 */
+	@RequestMapping("lock")
+	public @ResponseBody Map<String,Object> lock(GenerateCodeModel generateCodeModel) {
+	    HashMap<String, Object> resultMap = new HashMap<String, Object>();
+	    
+	    try {
+		if(generateCodeModel==null) {
+		    resultMap.put("mess", "系统出错了");
+		    return resultMap;
+		}
+		if(generateCodeModel.getGenerateCode()==null) {
+		    resultMap.put("mess", "系统出错了");
+		    return resultMap;
+		}
+		if (StringUtils.isBlank(generateCodeModel.getGenerateCode().getId())) {
+		    resultMap.put("mess", "系统出错了");
+		    return resultMap;
+		}
+		changeState(generateCodeModel,GenerateCode.LOCK);
+		resultMap.put("mess", "success");
+	    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		resultMap.put("mess", "系统出错了");
+	    }
+	    
+	    return resultMap;
+	}
+
+	/**
+	 * @param generateCodeModel
+	 * @throws Exception
+	 */
+	private void changeState(GenerateCodeModel generateCodeModel,Integer state)
+		throws Exception {
+	    GenerateCode g = generateCodeService.findById(generateCodeModel.getGenerateCode().getId());
+	    g.setState(state);
+	    generateCodeService.update(g);
 	} 
 }

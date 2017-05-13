@@ -44,7 +44,7 @@ public class ArticleType implements java.io.Serializable {
 	 */
 	@PageMate(fieldName="状态")
 	@ExcelColumn(title="状态",column=1)
-	@Column(name = "STATE", nullable = false,length=1)
+	@Column(name = "STATE", nullable = true,length=1)
 	private String state;
 
 	public String getId() {

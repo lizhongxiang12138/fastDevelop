@@ -37,7 +37,7 @@ public class DocumentAction {
 	
 	/**
 	 * 
-	 * 描述:保存修改角色
+	 * 描述:保存修改文件
 	 * @throws Exception 
 	 *
 	 */
@@ -50,8 +50,9 @@ public class DocumentAction {
 		Document document = new Document();
 		document.setDocumentTitle(file.getOriginalFilename());
 		String realPath = request.getServletContext().getRealPath("/");
+		String subUrl="/root";
 		try {
-		    documentService.save(document,file,realPath);
+		    documentService.save(document,file,realPath,subUrl);
 		    resultMess="success";
 		    resultMap.put("mess",resultMess);
 		    return resultMap;

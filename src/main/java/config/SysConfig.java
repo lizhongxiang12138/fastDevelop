@@ -24,6 +24,11 @@ public final class SysConfig {
      */
     public static String loginPage;
     
+    /**
+     * 前台页面icon
+     */
+    public final static String iconPNG="/bwg/resource/img/icon.png";
+    
     static {
 	/**
 	 * 初始化数据，读取sysConfig.properties

@@ -120,5 +120,13 @@ public class AuthUser implements java.io.Serializable {
 	public void setRoleName(String roleName) {
 	    this.roleName = roleName;
 	}
+
+	@Override
+	public String toString() {
+	    return "AuthUser [id=" + id + ", userName=" + userName
+		    + ", userAccount=" + userAccount + ", userPassword="
+		    + userPassword + ", roleId=" + roleId + ", roleName="
+		    + roleName + "]";
+	}
 	
 }

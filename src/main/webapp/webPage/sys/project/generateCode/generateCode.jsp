@@ -35,8 +35,7 @@
 <!--easyui import end-->
 
 <script src="${pathSys_page}/js/jquery.min.js?v=2.1.4"></script>
-<script type="text/javascript"
-	src="${pathResource}/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="${pathResource}/easyui/jquery.min.js"></script>
 <script src="${pathSys_page}/js/bootstrap.min.js?v=3.3.5"></script>
 <script src="${pathSys_page}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script
@@ -168,6 +167,7 @@
 										var checkedFlag = $('#datasForm [name=\'ids\']').prop('checked');
 										$('#datasForm [name=\'ids\']').prop('checked',!checkedFlag);
 									">全选</a></th>
+								<th>状态</th>
 								<th>类全名</th>
 								<th>模块名称</th>
 								<th>模块子包名</th>
@@ -187,8 +187,15 @@
 		        								    href:'${path}/sys/project/generateCode/form.action?generateCode.id=${generateCode.id}', 
 		        								});
 	                        			">编辑</a>
+	                        			<c:if test="${generateCode.state!=-1 }">
+	                        			<a href="javascript:lock('${generateCode.id}')" style="color:#f00;">锁定</a>
 	                        			<a href="javascript:generateCode('${generateCode.id}')">生成模块</a>
+	                        			</c:if>
+	                        		<%-- 	<c:if test="${generateCode.state==-1 }">
+	                        			<a href="javascript:removeLock('${generateCode.id}')">解锁</a>
+	                        			</c:if> --%>
 									</td>
+									<td>${stateMap[generateCode.state] }</td>
 									<td>${generateCode.className}</td>
 									<td>${generateCode.moduleName}</td>
 									<td>${generateCode.packageChildName}</td>
@@ -301,6 +308,9 @@
 	</script>
 	
 	<script>
+		/*
+			代码生成请求
+		*/
 		function generateCode(id){
 			var flag = confirm("如该模块已经生成过代码，则会覆盖代码。确定要生成代码吗？");
 			if(!flag){
@@ -322,6 +332,56 @@
 					}
 				});
 			}
+		}
+		/*
+			解锁
+		*/
+		function removeLock(id){
+			$.ajax({
+				type:"get",
+				url:"${path}/sys/project/generateCode/removeLock.action?generateCode.id="+id,
+				async:false,
+				dataType:"json",
+				success:function(data){
+					if("success"==data.mess){
+						$.messager.progress('close'); // 如果提交成功则隐藏进度条
+						location.reload();
+					}else{
+						alert(data.mess);
+					}
+				},
+				error:function(){
+					alert("系统出错啦，我们正在加紧抢修！");
+				},
+				beforeSend:function(XMLHttpRequest){
+					$.messager.progress(); // 显示进度条
+				}
+			});
+		}
+		/*
+			锁定
+		*/
+		function lock(id){
+			$.ajax({
+				type:"get",
+				url:"${path}/sys/project/generateCode/lock.action?generateCode.id="+id,
+				async:false,
+				dataType:"json",
+				success:function(data){
+					if("success"==data.mess){
+						$.messager.progress('close'); // 如果提交成功则隐藏进度条
+						location.reload();
+					}else{
+						alert(data.mess);
+					}
+				},
+				error:function(){
+					alert("系统出错啦，我们正在加紧抢修！");
+				},
+				beforeSend:function(XMLHttpRequest){
+					$.messager.progress(); // 显示进度条
+				}
+			});
 		}
 	</script>
 

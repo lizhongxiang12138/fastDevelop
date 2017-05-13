@@ -1,6 +1,8 @@
 package com.my.project.entity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,7 +57,25 @@ public class GenerateCode implements java.io.Serializable {
 	@ExcelColumn(title="模块子controller包名称",column=2)
 	@PageMate(fieldName="模块子controller包名称")
 	private String packageChildName ;
-
+	
+	/**
+	 * 状态
+	 */
+	@Column(name = "state", nullable = true)
+	@ExcelColumn(title="状态",column=3)
+	@PageMate(fieldName="状态")
+	private Integer state;
+	
+	public final static Integer AVAILABLE = 1; //可用状态
+	public final static Integer LOCK= -1; //锁定状态
+	
+	public static Map<Integer, String> STATESTRMAP;
+	
+	static {
+	    STATESTRMAP=new HashMap<Integer, String>();
+	    STATESTRMAP.put(1, "<span style=\"color:#9CD825;\">模块模块生成可用</span>");
+	    STATESTRMAP.put(-1, "<span style=\"color:#F00;\">已锁定</span>");
+	}
 
 	//getter setter 
 	public String getId() {
@@ -89,5 +109,15 @@ public class GenerateCode implements java.io.Serializable {
 	public void setPackageChildName(String packageChildName) {
 		this.packageChildName = packageChildName;
 	}
+
+	public Integer getState() {
+	    return state;
+	}
+
+	public void setState(Integer state) {
+	    this.state = state;
+	}
+	
+	
 	
 }

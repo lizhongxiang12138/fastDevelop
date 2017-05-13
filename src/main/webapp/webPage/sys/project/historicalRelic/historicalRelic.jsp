@@ -41,8 +41,6 @@
 <script src="${pathSys_page}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script
 	src="${pathSys_page}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="${pathSys_page}/js/plugins/layer/layer.min.js"></script>
-<script src="${pathSys_page}/js/hplus.min.js?v=4.0.0"></script>
 <script type="text/javascript" src="${pathSys_page}/js/contabs.min.js"></script>
 <script src="${pathSys_page}/js/plugins/pace/pace.min.js"></script>
 <script type="text/javascript"
@@ -171,12 +169,7 @@
 					onclick="location.replace(location.href)">刷新</button>
 				<button type="button" class="btn btn-default" data-toggle="modal"
 					data-target="#myModal"
-					onclick="
-			         		$('#formDialog').modal({show:true});
-							$('#formInit').panel({    
-								    href:'${path}/sys/project/historicalRelic/form.action', 
-								});
-			         	">添加</button>
+					onclick="location.href='${pathSys}/project/historicalRelic/form.action?historicalRelic.culturalRelicId=1'">添加</button>
 				<button type="button" class="btn btn-primary"
 					onclick="$('#search_condition #pgNo').val(1);$('#search_condition').submit();">查询</button>
 			</div>
@@ -203,35 +196,6 @@
 	</div>
 	<!-- 查询条件------------------------------------------------------- 结束 ---------------->
 
-	<!-- 表单编辑对话框 ---------------------------------------------------开始-------------------->
-	<div id="formDialog" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" style="overflow: hidden;">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">菜单编辑页面</h4>
-				</div>
-				<div id=modal_content class="modal-body" style="overflow: hidden;">
-					<!-- 菜单编辑窗口 -->
-					<div id="formInit" class="easyui-panel"
-						style="width: 800px; height: 200px; border: 0"></div>
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary"
-							onclick="
-	        		ajaxSubmit('#dataForm','${path}/sys/project/historicalRelic/save.action');
-	        		">保存</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 表单编辑对话框 ---------------------------------------------------结束-------------------->
 
 	<!-- 数据-------------------------------------------------------------开始------------------ -->
 	<div class="rows">
@@ -268,14 +232,8 @@
 								<tr>
 									<td><input type="checkbox" name="ids" value="${historicalRelic.id}" />
 										<a
-										href="${path}/sys/project/historicalRelic/delete.action?ids=${historicalRelic.id}">删除</a>
-										<a href="#"
-										onclick="
-		        			         		$('#formDialog').modal({show:true});
-		        							$('#formInit').panel({    
-		        								    href:'${path}/sys/project/historicalRelic/form.action?historicalRelic.id=${historicalRelic.id}', 
-		        								});
-	                        			">编辑</a>
+										href="${path}/sys/project/historicalRelic/delete.action?ids=${historicalRelic.id}&historicalRelic.culturalRelicId=1">删除</a>
+										<a href="${path}/sys/project/historicalRelic/form.action?historicalRelic.id=${historicalRelic.id}&historicalRelic.culturalRelicId=1">编辑</a>
 									</td>
 									<td>${historicalRelic.title}</td>
 									<td>${historicalRelic.comUpTime}</td>
@@ -327,18 +285,27 @@
 		<div style="height: 30px"></div>
 		<script>
 			$(function() {
+				var totalpg = 1;
+				if('0'!='${page.totalPg}'){
+					totalpg=${page.totalPg};
+				}
 				$("#pagination").myPagination(
 						{
-							currPage : '${page.pgNo}',
-							pageCount : '${page.totalPg}' == '0' ? '1'
-									: '${page.totalPg}',
-							pageSize : '${page.pgSize}',
+							currPage : ${page.pgNo},
+							pageCount : totalpg,
+							pageSize : ${page.pgSize},
 							cssStyle : 'meneame'
 						});
 				$("#pagination a").click(function() {
 					var pgNo = $(this).attr("title");
 					$("#search_condition #pgNo").val(pgNo);
 					$("#search_condition").submit();
+				});
+				$("#pagination input").keydown(function(k) {
+					if(k.which==13){//如果输入了回车键则跳转到输入页面
+						$("#search_condition #pgNo").val($('#pagination input').val());
+						$("#search_condition").submit();
+					}
 				});
 			});
 		</script>

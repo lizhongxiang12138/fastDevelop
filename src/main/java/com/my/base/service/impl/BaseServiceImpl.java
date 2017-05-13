@@ -116,9 +116,10 @@ public class BaseServiceImpl<T> extends BaseDaoImpl<T> implements BaseService<T>
 				}
 			}
 			List<T> datasTemp = super.list(qh);
-			if(datasTemp.size()==0||datasTemp!=null){
-				super.save(m);
-			}
+			super.save(m);
+//			if(datasTemp.size()==0||datasTemp==null){
+//				super.save(m);
+//			}
 		}
 	}
 }

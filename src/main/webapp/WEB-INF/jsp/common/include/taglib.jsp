@@ -1,3 +1,4 @@
+<%@page import="config.SysConfig"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -11,3 +12,6 @@
 <c:set var="sys_project" value="${pageContext.request.contextPath}/webPage/sys/project"/>
 <c:set var="pathResource_tools" value="${pageContext.request.contextPath}/resource/tools"/>
 <c:set var="pathResource" value="${pageContext.request.contextPath}/resource"/>
+<%
+	pageContext.setAttribute("iconUrl", SysConfig.iconPNG);
+%>

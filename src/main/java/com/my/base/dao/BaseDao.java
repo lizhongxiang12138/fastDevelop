@@ -1,9 +1,12 @@
 package com.my.base.dao;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+import com.my.exception.IdNumOUtOFException;
+import com.my.exception.NoDataException;
 import com.my.project.utils.DeleteHelper;
 import com.my.project.utils.PageUtils;
 import com.my.project.utils.QueryHelper;
@@ -62,4 +65,13 @@ public interface BaseDao<T> {
 	 * @param dh删除助手
 	 */
 	public void deleteByCondition(DeleteHelper dh)throws Exception;
+	
+	/**
+	 * 
+	 * @param generateId
+	 * @return
+	 * @throws NoDataException 
+	 * @throws IdNumOUtOFException 
+	 */
+	public String getGenerateId(String generateId)throws SQLException, NoDataException, IdNumOUtOFException;
 }

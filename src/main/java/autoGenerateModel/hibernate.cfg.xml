@@ -7,7 +7,7 @@
 		<!-- 数据库连接配置 -->
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.url">
-			jdbc\:mysql\://localhost\:3306/baseproject?useUnicode\=true&characterEncoding\=utf8
+			jdbc\:mysql\://localhost\:3306/bwg?useUnicode\=true&characterEncoding\=utf8
 		</property>
 		<property name="hibernate.connection.username">lizhongxiang</property>
 		<property name="hibernate.connection.password">123456</property>

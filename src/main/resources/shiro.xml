@@ -32,7 +32,7 @@
 			<value>
 				/sys/project/authUser/login.action=anon
 				/webPage/sys/project/authUser/login.jsp=anon
-				/webPage/amazeUi/**=authc
+				/webPage/bwgSys/**=authc
 				/sys/**=authc
 				/webPage/sys/**=authc
 			</value>

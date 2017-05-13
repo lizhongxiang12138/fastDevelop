@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/include/taglib.jsp"%>
 
-<script type="text/javascript"
-	src="${path}/resource/js/validate_js/validate.js"></script>
+<script type="text/javascript" src="${path}/resource/js/validate_js/validate.js"></script>
 
 <form:form id="dataForm" method="POST" modelAttribute="documentModel" class="form-horizontal form-inline" role="form">  	
 	<input type="hidden" name="document.id" value="${documentModel.document.id}"/>

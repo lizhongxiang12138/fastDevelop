@@ -35,18 +35,13 @@
 <!--easyui import end-->
 
 <script src="${pathSys_page}/js/jquery.min.js?v=2.1.4"></script>
-<script type="text/javascript"
-	src="${pathResource}/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="${pathResource}/easyui/jquery.min.js"></script>
 <script src="${pathSys_page}/js/bootstrap.min.js?v=3.3.5"></script>
 <script src="${pathSys_page}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script
-	src="${pathSys_page}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="${pathSys_page}/js/plugins/layer/layer.min.js"></script>
-<script src="${pathSys_page}/js/hplus.min.js?v=4.0.0"></script>
+<script src="${pathSys_page}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script type="text/javascript" src="${pathSys_page}/js/contabs.min.js"></script>
 <script src="${pathSys_page}/js/plugins/pace/pace.min.js"></script>
-<script type="text/javascript"
-	src="${pathResource}/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${pathResource}/easyui/jquery.easyui.min.js"></script>
 
 <!-- 引入分页插件样式-->
 <link rel="stylesheet" type="text/css"
@@ -242,8 +237,7 @@
 				$("#pagination").myPagination(
 						{
 							currPage : '${page.pgNo}',
-							pageCount : '${page.totalPg}' == '0' ? '1'
-									: '${page.totalPg}',
+							pageCount : '${page.totalPg}' == '0' ? '1' : '${page.totalPg}',
 							pageSize : '${page.pgSize}',
 							cssStyle : 'meneame'
 						});

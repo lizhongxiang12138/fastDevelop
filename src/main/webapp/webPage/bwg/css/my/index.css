@@ -1,0 +1,79 @@
+/*S-菜单*/
+*{margin: 0;padding: 0}
+.myMenu{display: block;width: 100%;background-color:#A92121;border-bottom: 2px #4BAA74 solid;}
+.myMenu>ul{background-color:#A92121;height:44px;margin: 0 auto;}
+.myMenu li>span{list-style: none;line-height: 44px; font-size: 19px;}
+.myMenu>ul>li{float:left;position:relative;color: #fff}
+.myMenu>ul>li>span{float:left;padding-left:20px;padding-right:20px;position: relative;}
+.myMenu>ul>li:HOVER,.myMenu>ul>li .supMenu>li:HOVER{background-color:#6F1414;cursor:pointer;}
+.myMenu>ul>li .supMenu{position:absolute;width:100%;top: 44px;left:0px;display:none;background-color: #B7B1B1;border-top: 4px #4BAA74 solid;z-index: 999}
+.myMenu>ul>li .supMenu span{padding-left:20px;padding-right:20px;}
+ol>li>ol, ol>li>ul, ul>li>ol, ul>li>ul {margin: 0;}
+/*E-菜单*/
+
+/*S-首页大图滚动展示*/
+#imgScrollShow{width：100%;height:400px;}
+.swiper-container img{width: 100%;height: 100%;}
+/*E-首页大图滚动展示*/
+
+/* S-内容 */
+.myContent{width: 1200px;margin: 10px auto;min-height: 300px;}
+.am-tabs-d2 .am-tabs-nav>.am-active {position: relative;background-color:transparent ;border-bottom: 0;}
+.am-tabs-d2 .am-tabs-nav {background-color: transparent;}
+.am-tabs-d2 .am-tabs-nav>.am-active:after {border: 6px transparent solid;border-bottom-color: #A92121;}
+.am-tabs-bd {border-top: 2px #A92121 solid;}
+.am-tab-panel{background-color: #fff}
+.am-panel-hd {padding: 0;height: 42px; line-height: 42px;}
+.am-panel-default>.am-panel-hd {color: #f8f8f8;background-color: #A92121;border:0 ;}
+.am-tabs-d2 .am-tabs-nav>.am-active a {line-height: 40px;color: #A92121;}
+.more-info{display:block;float: right;font-size: 14px;font-weight: 500;margin-right:10px;};
+.more-info:HOVER{color:#f00}
+.display-list-item{width:240px;height: 200px;margin-left:10px;margin-top:20px;float: left;}
+.display-list-item img{width:100%;height: 90%}
+.display-list-item p{text-align: center;display: block;height: 10%；;margin:0;padding: 0}
+.left-title{top: 50%;margin-top: -72px;margin-left: 15px;position: absolute;color: #A92121;font-size: 23px;font-weight: 700;}
+.am-panel-hd a{color:#fff}
+.am-panel-hd a:HOVER{color:#fff}
+/* E-内容 */
+
+
+/* S-尾部 */
+.refooter{background-color:#A92121;border-top:2px #4BAA74 solid} 
+.footerp{background-color:#6F1414}
+/* E-尾部 */
+
+
+/* S-共用样式 */
+.widthPrec10{display:block;width:10%}
+.widthPrec15{width:15%}
+.widthPrec20{width:20%}
+.widthPrec25{width:25%}
+.widthPrec30{width:30%}
+.widthPrec35{width:35%}
+.widthPrec40{width:40%}
+.widthPrec45{width:45%}
+.widthPrec50{width:50%}
+.widthPrec55{width:55%}
+.widthPrec60{width:60%}
+.widthPrec65{width:65%}
+.widthPrec70{width:70%}
+.widthPrec75{width:75%}
+.widthPrec80{width:80%}
+.widthPrec85{width:85%}
+.widthPrec90{width:90%}
+.widthPrec95{width:95%}
+.widthPrec100{width:100%}
+.float-left{float:left;}
+.float-right{float:right;}
+.clear-float{clear: both;}
+.height300{height:300px}
+.height450{display:block;height:450px}
+
+.color-red{color: #A92121}
+.bgClolor-white{background-color:#fff}
+
+.triangleShape{position: absolute;width: 0;height: 0;bottom: 0;right:0px;top: 50%;margin-top: -9px;border: 10px transparent solid;
+	content: "";z-index: 1;border-color: transparent transparent transparent transparent;}
+a{color: #222222;}
+a:hover {cursor: pointer; color: #A92121;}
+/* E-共用样式 */

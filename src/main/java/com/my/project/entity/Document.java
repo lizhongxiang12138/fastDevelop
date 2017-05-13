@@ -138,6 +138,13 @@ public class Document implements java.io.Serializable {
 	@ExcelColumn(title="文件相对路径",column=14)
 	@Column(name = "FILE_RELATIVE_PATH", nullable = true, length = 500)
 	private String fileRelativePath;
+	/**
+	 * 备注
+	 */
+	@PageMate(fieldName="备注")
+	@ExcelColumn(title="备注",column=15)
+	@Column(name = "remark", nullable = true, length = 10000)
+	private String remark;
 	
 	
 	public String getId() {
@@ -236,5 +243,12 @@ public class Document implements java.io.Serializable {
 	public void setFileRelativePath(String fileRelativePath) {
 	    this.fileRelativePath = fileRelativePath;
 	}
+	public String getRemark() {
+	    return remark;
+	}
+	public void setRemark(String remark) {
+	    this.remark = remark;
+	}
+	
 	
 }

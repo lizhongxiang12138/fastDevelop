@@ -25,8 +25,6 @@ public class Article implements java.io.Serializable {
 	/**
 	 * id
 	 */
-	@GenericGenerator(name = "generator", strategy = "uuid.hex")
-	@GeneratedValue(generator = "generator")
 	@Id
 	@Column(name = "id", unique = true, nullable = false, length = 32)
 	private String id;

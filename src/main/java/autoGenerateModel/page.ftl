@@ -41,8 +41,6 @@
 <script src="${r'${pathSys_page}'}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script
 	src="${r'${pathSys_page}'}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="${r'${pathSys_page}'}/js/plugins/layer/layer.min.js"></script>
-<script src="${r'${pathSys_page}'}/js/hplus.min.js?v=4.0.0"></script>
 <script type="text/javascript" src="${r'${pathSys_page}'}/js/contabs.min.js"></script>
 <script src="${r'${pathSys_page}'}/js/plugins/pace/pace.min.js"></script>
 <script type="text/javascript"
@@ -233,18 +231,27 @@
 		<div style="height: 30px"></div>
 		<script>
 			$(function() {
+				var totalpg = 1;
+				if('0'!='${r'${page.totalPg}'}'){
+					totalpg=${r'${page.totalPg}'};
+				}
 				$("#pagination").myPagination(
 						{
-							currPage : '${r'${page.pgNo}'}',
-							pageCount : '${r'${page.totalPg}'}' == '0' ? '1'
-									: '${r'${page.totalPg}'}',
-							pageSize : '${r'${page.pgSize}'}',
+							currPage : ${r'${page.pgNo}'},
+							pageCount : totalpg,
+							pageSize : ${r'${page.pgSize}'},
 							cssStyle : 'meneame'
 						});
 				$("#pagination a").click(function() {
 					var pgNo = $(this).attr("title");
 					$("#search_condition #pgNo").val(pgNo);
 					$("#search_condition").submit();
+				});
+				$("#pagination input").keydown(function(k) {
+					if(k.which==13){//如果输入了回车键则跳转到输入页面
+						$("#search_condition #pgNo").val($('#pagination input').val());
+						$("#search_condition").submit();
+					}
 				});
 			});
 		</script>

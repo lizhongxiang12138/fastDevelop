@@ -41,12 +41,12 @@ html{
 }
 .txtclass{
 	border: none;
-	height: 35px;
 	width: 295px;
+	line-height: 30px;
 }
 .search_a{
 	background:url(../images/search.png) no-repeat;
-	width: 35px;
+	width: 32px;
 	height: 35px;
 	overflow: hidden;
 	text-indent: -9999px;

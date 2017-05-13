@@ -16,17 +16,17 @@ import com.my.annotation.page.PageMate;
  * TbMenu entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "TB_HISTORICAL_RELIC")
+@Table(name = "HISTORICAL_RELIC")
 @ExcelTable(title="文物")
 public class HistoricalRelic implements java.io.Serializable {
 
+    
 	/**
 	 * id
 	 */
 	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@GeneratedValue(generator = "generator")
 	@Id
-	@PageMate(fieldName="文物ID")
 	@Column(name = "id", unique = true, nullable = false, length = 32)
 	private String id;
 	
@@ -109,6 +109,51 @@ public class HistoricalRelic implements java.io.Serializable {
 	@ExcelColumn(title="文物类型",column=9)
 	@Column(name = "TYPE", nullable = true, length = 400)
 	private String type;
+	
+	/**
+	 * 开始展示时间
+	 */
+	@PageMate(fieldName="开始展示时间")
+	@ExcelColumn(title="开始展示时间",column=10)
+	@Column(name = "START_TIME", nullable = true, length = 6)
+	private String startTime;
+	
+	
+	/**
+	 * 结束展示时间
+	 */
+	@PageMate(fieldName="结束展示时间")
+	@ExcelColumn(title="结束展示时间",column=11)
+	@Column(name = "END_TIME", nullable = true, length = 6)
+	private String endTime;
+	
+	/**
+	 * 开始展示日期
+	 */
+	@PageMate(fieldName="开始展示日期")
+	@ExcelColumn(title="开始展示日期",column=12)
+	@Column(name = "START_DATE", nullable = true, length = 11)
+	private String startDate;
+	
+	
+	/**
+	 * 结束展示日期
+	 */
+	@PageMate(fieldName="结束展示日期")
+	@ExcelColumn(title="结束展示日期",column=13)
+	@Column(name = "END_DATE", nullable = true, length = 11)
+	private String endDate;
+	
+	
+	/**
+	 * 种类
+	 */
+	@PageMate(fieldName="种类")
+	@ExcelColumn(title="种类",column=14,selectList="com.my.project.entity.HistoricType.TYPES")
+	@Column(name = "CULTURAL_RELIC_ID", nullable = true, length = 2)
+	private String culturalRelicId;
+	
+	
 
 	public String getId() {
 	    return id;
@@ -196,5 +241,46 @@ public class HistoricalRelic implements java.io.Serializable {
 
 	public void setType(String type) {
 	    this.type = type;
-	}	
+	}
+
+	public String getStartTime() {
+	    return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+	    this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+	    return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+	    this.endTime = endTime;
+	}
+
+	public String getStartDate() {
+	    return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+	    this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+	    return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+	    this.endDate = endDate;
+	}
+
+	public String getCulturalRelicId() {
+	    return culturalRelicId;
+	}
+
+	public void setCulturalRelicId(String culturalRelicId) {
+	    this.culturalRelicId = culturalRelicId;
+	}
+	
 }
