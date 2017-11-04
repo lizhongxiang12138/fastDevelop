@@ -38,7 +38,7 @@
 		<label for="firstname" class="col-sm-4 control-label">菜单链接</label>
 		<div class="col-sm-8">
 			<c:choose>
-				<c:when test="${menuModel.menu.url!=null&&menuModel.menu.url!="" }">
+				<c:when test="${menuModel.menu.url!=null&&menuModel.menu.url!=''}">
 					<input type="text" class="form-control" name="menu.url"
 						value="${menuModel.menu.url }" />
 				</c:when>
